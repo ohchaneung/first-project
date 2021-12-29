@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board-mapping">
+
+	<!-- 상품등록 -->
+	<insert id="insert" parameterType="BoardVo">
+  <![CDATA[    
+   insert  into board(pno, pname, price, quantity, grade, img, udate)
+   values(pseq.nextval, #{pname}, #{price}, #{quantity}, #{grade},#{img}, SYSDATE)
+  ]]>
+	</insert>
+
+	<!-- 상품목록 -->
+	<select id="getBoardList" resultType="BoardVo"
+		parameterType="BoardVo">
+   <![CDATA[    
+   select rownum , K.* 
+	 from 
+		( select rownum as rnum, pno, pname, price, quantity, grade, img, udate
+			from ( select * from board where 1=1
+			  ]]>
+
+		<if test="ch1 == 'pname'">
+			    <![CDATA[  
+			      and pname like '%' || #{ch2} || '%' 
+			    ]]>
+		</if>
+
+		<if test="ch1 == 'grade'">
+			    <![CDATA[  
+			      and grade like '%' || #{ch2} || '%' 
+			    ]]>
+		</if>		    
+					
+			  <![CDATA[    
+			  order by pno ) K										
+		 	where rownum <= #{startIdx}+5  ) K 
+		  where rnum >= #{startIdx} 
+   ]]>
+	</select>
+
+	<!-- 토탈 카운트 -->
+	<select id="boardTotalCount" resultType="int"
+		parameterType="BoardVo">
+   <![CDATA[    
+    select count(*)  from  	board
+    where 1=1
+   ]]>
+
+		<if test="ch1 == 'pname'">
+			    <![CDATA[  
+			      and pname like '%' || #{ch2} || '%' 
+			    ]]>
+		</if>
+
+		<if test="ch1 == 'grade'">
+			    <![CDATA[  
+			      and grade like '%' || #{ch2} || '%' 
+			    ]]>
+		</if>
+	</select>
+
+	<!-- 상품상세보기 -->
+	<select id="getBoard" parameterType="BoardVo"
+		resultType="BoardVo">
+   <![CDATA[    
+     select * from board where pno = #{pno}
+   ]]>
+	</select>
+
+	<!-- 상품수정 -->
+	<update id="update" parameterType="BoardVo">
+  <![CDATA[    
+   update board set price = #{price}, quantity = #{quantity},
+    grade=#{grade}, img=#{img} where pno = #{pno}
+  ]]>
+	</update>
+
+	<!-- 상품삭제 -->
+	<delete id="delete" parameterType="BoardVo">
+  <![CDATA[    
+   delete from board where pno = #{pno}
+  ]]>
+	</delete>
+
+	<!-- 장바구니에 담을 시 갯수 변경 -->
+	<update id="Qupdate" parameterType="BoardVo">
+  <![CDATA[    
+   update board set quantity = #{quantity} where pno = #{pno}
+  ]]>
+	</update>
+
+</mapper>

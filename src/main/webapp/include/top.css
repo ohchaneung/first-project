@@ -1,0 +1,52 @@
+@charset "utf-8";
+
+header, nav, section, footer {
+	width: 100%
+}
+
+header {
+	background: white;
+	height: 70px;
+	line-height: 70px;
+	text-align: center;
+	font-size: 30px;
+}
+
+nav {
+	background: #F3F0D7;
+	height: 40px;
+	line-height: 40px;
+	text-align: left;
+}
+
+section {
+	background: white;
+	min-height: 400px;
+	text-align: center;
+}
+
+a{
+	text-decoration: none;
+	color : black;
+}
+
+#indexdiv{
+	padding : 50px;
+}
+
+.reviewTd{
+	border-bottom : 1px solid darkgray;
+}
+
+.updateTd, .insertTd{
+	display : none;
+}
+
+.reupdateBtn{
+	outline : o;
+	border : 0;
+	background-color : transparent;
+	font-family : Malgun Gothic;
+	font-size : 16px;
+	font-weight : 100;
+}

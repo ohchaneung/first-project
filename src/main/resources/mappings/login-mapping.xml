@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="login-mapping">
+
+	<!-- 회원가입 -->
+	<insert id="insert" parameterType="LoginVo">
+  <![CDATA[    
+   insert  into member(custno, id, pwd1, pwd2, name, zipcode, addr1, addr2, addr3, role, joindate)
+   values(memberseq.nextval, #{id}, #{pwd1}, #{pwd2}, #{name}, #{zipcode}, #{addr1}, #{addr2}, #{addr3}, #{role}, SYSDATE)
+  ]]>
+	</insert>
+
+	<!-- 회원목록 -->
+	<select id="getLoginList" resultType="LoginVo">
+   <![CDATA[    
+     select * from member
+   ]]>
+	</select>
+
+	<!-- 로그인 기능 -->
+	<select id="LoginCheck" resultType="LoginVo"
+		parameterType="LoginVo">
+   <![CDATA[    
+     select * from member where id=#{id} and pwd1=#{pwd1} and pwd2=#{pwd2}
+   ]]>
+	</select>
+
+	<!-- 아이디 중복체크 -->
+	<select id="idCheck" resultType="LoginVo"
+		parameterType="LoginVo">
+   <![CDATA[    
+     select * from member where id=#{id}
+   ]]>
+	</select>
+
+	<!-- 회원삭제 -->
+	<delete id="delete" parameterType="LoginVo">
+  <![CDATA[    
+   delete from member where custno = #{custno}
+  ]]>
+	</delete>
+
+	<!-- 회원수정 -->
+	<update id="update" parameterType="LoginVo">
+  <![CDATA[    
+   update member set pwd1=#{pwd1}, pwd2=#{pwd2}, name=#{name}, zipcode=#{zipcode},
+    addr1=#{addr1}, addr2=#{addr2}, addr3=#{addr3} where custno = #{custno}
+  ]]>
+	</update>
+
+	<!-- 회원상세정보 -->
+	<select id="getLogin" parameterType="LoginVo"
+		resultType="LoginVo">
+   <![CDATA[    
+     select * from member where id = #{id}
+   ]]>
+	</select>
+
+</mapper>
